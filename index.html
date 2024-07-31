@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Torrent hash to magnet</title>
+		<style type="text/css">
+			* {
+				margin: 0;
+				padding: 0;
+				border: 0;
+				line-height: 1.2;
+			}
+			html, body, form {
+				width: 100%;
+				height: 100%;
+			}
+			body {
+				background-color: #1d1d1d;
+			}
+			form {
+				text-align: center;
+			}
+			p {
+				padding: 1rem;
+				height: calc(100% - 3rem);
+			}
+			#input1, #input2, #output {
+				background-color: #121212;
+				color: #f0f0f0;
+				padding: 1rem;
+				font-family: monospace;
+				font-size: 1rem;
+				border-radius: 4px;
+				border: 1px solid #282828;
+				margin: 1rem auto;
+				width: calc(100% - 4rem);
+				max-width: 1024px;
+				display: block;
+			}
+			#output {
+				height: calc(100% - 12.35rem);
+				max-height: 24rem;
+			}
+		</style>
+	</head>
+	<body onload="run();">
+
+		<script type="text/javascript">
+			function update(input1, input2) {
+				try {
+					var data = "magnet:"
+						+ "?xt=urn:btih:" + input1;
+						if (input2)
+							data += "&dn=" + input2;
+						else
+							data += "&dn=" + input1;
+						data += "&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80"
+						+ "&tr=udp%3A%2F%2Fopentor.org%3A2710"
+						+ "&tr=udp%3A%2F%2Ftracker.ccc.de%3A80"
+						+ "&tr=udp%3A%2F%2Ftracker.blackunicorn.xyz%3A6969"
+						+ "&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969"
+						+ "&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969"
+						+ "&tr=udp%3A%2F%2Fopen.demonii.com%3A1337%2Fannounce"
+						+ "&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969"
+						+ "&tr=udp%3A%2F%2Fglotorrents.pw%3A6969%2Fannounce"
+						+ "&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337%2Fannounce"
+						+ "&tr=udp%3A%2F%2Ftorrent.gresille.org%3A80%2Fannounce"
+						+ "&tr=udp%3A%2F%2Fp4p.arenabg.com%3A1337"
+						+ "&tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337"
+						;
+				}
+				catch(e) {
+					alert("exception: " + e);
+				}
+				return(data);
+			}
+
+			function convert() {
+				try {
+					const hash = new URLSearchParams(window.location.search).get('hash');
+					const name = new URLSearchParams(window.location.search).get('name');
+					var inputs = 0;
+
+					if (hash)
+						inputs++;
+					if (name)
+						inputs = inputs + 2;
+
+					switch(inputs) {
+						case 1:
+							document.getElementById('input1').style.display = 'none';
+							document.getElementById('output').style.height = 'calc(100% - 8rem)';
+							if(document.getElementById('input2').value != "")
+								var output = update(hash, document.getElementById('input2').value);
+							else
+								var output = update(hash, hash);
+							break;
+						case 2:
+							document.getElementById('input2').style.display = 'none';
+							document.getElementById('output').style.height = 'calc(100% - 8rem)';
+							if(document.getElementById('input1').value != "")
+								var output = update(document.getElementById('input1').value, name);
+							else
+								var output = "";							
+							break;
+						case 3:
+							document.getElementById('input1').style.display = 'none';
+							document.getElementById('input2').style.display = 'none';
+							document.getElementById('output').style.height = 'calc(100% - 3.68rem)';
+							var output = update(hash, name);
+							break;
+						default:
+							if(document.getElementById('input1').value != "")
+								var output = update(document.getElementById('input1').value, document.getElementById('input2').value);
+							else
+								var output = "";
+					}
+				}
+				catch(e) {
+					alert("exception: " + e);
+				}
+				return(output);
+			}
+
+			function run() {
+				document.getElementById("output").innerHTML = convert();
+			}
+		</script>
+
+		<form>
+			<p>
+				<input id="input1" type="text" value="" onblur="run();" placeholder="REQUIRED: Paste your torrent hash here, or add it to the URL with '?hash=YOUR_TORRENT_HASH'" />
+				<input id="input2" type="text" value="" onblur="run();" placeholder="OPTIONAL: Write your torrent name here, or add it to the URL with '&name=YOUR_TORRENT_NAME'" />
+				<textarea id="output" onfocus="navigator.clipboard.writeText(this.value);"></textarea>
+			</p>
+		</form>
+	</body>
+</html>
