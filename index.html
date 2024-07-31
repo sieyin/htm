@@ -131,7 +131,7 @@
 			<p>
 				<input id="input1" type="text" value="" onblur="run();" placeholder="REQUIRED: Paste your torrent hash here, or add it to the URL with '?hash=YOUR_TORRENT_HASH'" />
 				<input id="input2" type="text" value="" onblur="run();" placeholder="OPTIONAL: Write your torrent name here, or add it to the URL with '&name=YOUR_TORRENT_NAME'" />
-				<textarea id="output" onfocus="navigator.clipboard.writeText(this.value);"></textarea>
+				<textarea id="output" placeholder="The resulting output here will be automatically copied to your clipboard" onfocus="navigator.clipboard.writeText(this.value);"></textarea>
 			</p>
 		</form>
 	</body>
