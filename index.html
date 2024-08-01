@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>Hash to Magnet/title>
+		<title>Hash to Magnet</title>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<link rel="shortcut icon" href="favicon.ico">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -10,38 +10,48 @@
 				margin: 0;
 				padding: 0;
 				border: 0;
-				line-height: 1.2;
+				line-height: 1.6;
 			}
-			html, body, form {
+			html {
 				width: 100%;
 				height: 100%;
 			}
 			body {
 				background-color: #1d1d1d;
+				height: 100%;
 			}
 			form {
 				text-align: center;
-			}
-			p {
-				padding: 1rem;
-				height: calc(100% - 3rem);
+				margin: 0 1rem;
+				height: calc(100% - 1rem);
+				display: block;
 			}
 			#input1, #input2, #output {
 				background-color: #121212;
 				color: #f0f0f0;
-				padding: 1rem;
+				padding: 0.5rem 1rem;
 				font-family: monospace;
 				font-size: 1rem;
 				border-radius: 4px;
 				border: 1px solid #282828;
 				margin: 1rem auto;
-				width: calc(100% - 4rem);
+				width: calc(100% - 2rem);
 				max-width: 1024px;
 				display: block;
 			}
 			#output {
-				height: calc(100% - 12.35rem);
-				max-height: 24rem;
+				height: calc(100% - 9.5rem);
+				max-height: 32rem;
+				resize: none;
+			}
+			@media screen and (min-width: 800px) {
+				#input1, #input2, #output {
+					width: calc(100% - 4rem);
+					margin: 2rem auto;
+				}
+				#output {
+					height: calc(100% - 14rem);
+				}
 			}
 		</style>
 	</head>
@@ -130,11 +140,9 @@
 		</script>
 
 		<form>
-			<p>
-				<input id="input1" type="text" value="" onblur="run();" placeholder="REQUIRED: Paste your torrent hash here, or add it to the URL with '?hash=YOUR_TORRENT_HASH'" />
-				<input id="input2" type="text" value="" onblur="run();" placeholder="OPTIONAL: Write your torrent name here, or add it to the URL with '&name=YOUR_TORRENT_NAME'" />
-				<textarea id="output" placeholder="The resulting output here will be automatically copied to your clipboard" onfocus="navigator.clipboard.writeText(this.value);"></textarea>
-			</p>
+			<input id="input1" type="text" value="" onblur="run();" placeholder="REQUIRED: Paste your torrent hash here, or add it to the URL with '?hash=YOUR_TORRENT_HASH'" />
+			<input id="input2" type="text" value="" onblur="run();" placeholder="OPTIONAL: Write your torrent name here, or add it to the URL with '&name=YOUR_TORRENT_NAME'" />
+			<textarea id="output" placeholder="The resulting output here will be automatically copied to your clipboard when you click this area." onclick="navigator.clipboard.writeText(this.value);"></textarea>
 		</form>
 	</body>
 </html>
